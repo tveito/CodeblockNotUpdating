@@ -1,0 +1,74 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>This works fine</h1>
+
+<MudMarkdown Value="@staticString" CodeBlockTheme="CodeBlockTheme.AtomOneDark" />
+
+
+<h1>This does not</h1>
+<MudButton OnClick="GetAsyncData">Click me</MudButton>
+
+<MudMarkdown Value="@dynamicString" CodeBlockTheme="CodeBlockTheme.AtomOneDark" />
+
+
+@code {
+
+    string dynamicString = "";
+    string staticString = @"
+#### Example Markdown Page with Python Code
+
+This is an example of how you can include Python code in your Markdown files.
+
+##### Simple Python Code Example
+
+Here's a simple Python function that adds two numbers:
+
+```python
+def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(5, 3)
+print(""The sum is:"", result)
+```
+
+##### Loop Example
+
+Below is a Python loop that prints numbers from 1 to 5:
+
+```python
+for i in range(1, 6):
+    print(i)
+```
+
+##### Conditional Example
+
+Here's how you can use a conditional statement in Python:
+
+```python
+x = 10
+
+if x > 5:
+    print(""x is greater than 5"")
+else:
+    print(""x is not greater than 5"")
+```
+
+";
+
+    public async Task GetAsyncData()
+    {
+        // copy word for word into dynamicString
+
+        List<string> words = staticString.Split(' ').ToList();
+
+        foreach (var word in words)
+        {
+            dynamicString += word + " ";
+            await Task.Delay(100);
+            StateHasChanged();
+        }
+    }
+
+}
